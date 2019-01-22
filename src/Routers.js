@@ -9,7 +9,7 @@ import News from './component/news/News';
 
 const TabIcon = ({ focused, iconName}) => {
 
-  var color = focused ? "black" : "grey"
+  var color = focused ? "blue" : "grey"
   return (
     <Icon name={iconName} size={24} color={color}/>
   )
@@ -43,6 +43,7 @@ componentDidMount = () => {
             <Tabs 
               hideNavBar={true} 
               showLabel={false}
+              
             >
                 <Scene key="Home" component={News} icon={TabIcon} title="Home" initial iconName="home" /> 
                 <Scene key="favourite" component={favScreen} icon={TabIcon}  title="Favourite" iconName="heart" />
