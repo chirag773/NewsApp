@@ -11,23 +11,24 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../Spinner";
 import { getNews } from "../../actions/newsActions";
+// import { addNewsToFav } from "../../actions/addFavNewsAction"
 import NewsItems from './NewsItems';
 import { Actions } from 'react-native-router-flux';
 
 class News extends Component {
 
 
-  componentWillMount = () => {
-    firebase.auth().signInWithEmailAndPassword
-    ("chiragprajapati781@gmail.com", "password")
-  };
+  // componentWillMount = () => {
+  //   firebase.auth().signInWithEmailAndPassword
+  //   ("chiragprajapati781@gmail.com", "password")
+  // };
   
 
 
   constructor(props) {
     super(props);
     this.state = {
-      refreshing: false,
+      refreshing: false
     };
   }
 
@@ -86,11 +87,14 @@ _onRefresh(){
 
 News.propTypes = {
     getNews:PropTypes.func.isRequired,
-    news:PropTypes.object.isRequired
+    news:PropTypes.object.isRequired,
+    // favNews:PropTypes.object.isRequired,
+    // addNewsToFav:PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => ({
-    news:state.news
+    news:state.news,
+    // favNews:state.favNews
 })
 
 export default connect(mapStateToProps,{getNews})(News);

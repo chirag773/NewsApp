@@ -4,7 +4,9 @@ import { Actions } from 'react-native-router-flux';
 import {
   GET_NEWS, 
   NEWS_LOADING,
-  GET_ERRORS
+  GET_ERRORS,
+  GET_FAV_NEWS,
+  ADD_NEWS_TO_FAV
 } from "./types.js";
 
 const APIKEY = "apiKey=413275ea4e324ded857f94a070918c98";
@@ -36,4 +38,3 @@ export const getNews = () => dispatch => {
       type:NEWS_LOADING
     }
   }
-  

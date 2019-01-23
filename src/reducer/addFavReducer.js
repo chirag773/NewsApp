@@ -7,13 +7,12 @@ import {
   } from "../actions/types";
   
   
-  
   const initialState = {
-    news:[],
     loading:false,
     favNews:[]
   }
-  
+
+
   export default function(state = initialState , action ){
     switch (action.type) {
       case NEWS_LOADING:
@@ -21,12 +20,12 @@ import {
           ...state,
           loading:true
         }
-      case GET_NEWS:
-        return {
-          ...state,
-          news: action.payload,
-          loading:false
-        }
+        case ADD_NEWS_TO_FAV:
+          return {
+            ...state,
+            favNews: [...state.favNews, action.payload],
+            loading:false
+          }
       default:
         return state;
     }

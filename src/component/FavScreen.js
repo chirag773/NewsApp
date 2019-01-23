@@ -1,66 +1,92 @@
-import React, { Component } from 'react';
-import { View,ListView} from 'react-native';
-import * as firebase from "firebase";
-import { Container, Content,ListItem} from 'native-base';
-import { Actions } from 'react-native-router-flux';
-import { Card, Button ,Text} from 'react-native-elements'
+import React, { Component } from 'react'
+import { Text, View,TouchableOpacity,AsyncStorage,ScrollView } from 'react-native'
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Spinner from "./Spinner";
+import {  addNewsToFav } from "../actions/addFavNewsAction";
+import { Card, ListItem, Button } from 'react-native-elements';
+import Icon from "react-native-vector-icons/FontAwesome"
+
+export class FavScreen extends Component {
 
 
-var data=[]
-var currentUser
+retriveData = () =>{
 
-class favScreen extends Component {
+  const { favNews,loading } = this.props.favNews;
+  console.log(favNews);
+}
 
-  constructor(props) {
-    super(props);
-
-    this.ds = new ListView.DataSource({rowHasChanged:(r1,r2) => r1 !==r2})
-    this.state = {
-      listViewData: data
-    };
-  }
-
-  componentDidMount = () => {
-    this.getFav()
-  };
-  
-  getFav = async() => {
-    currentUser = await firebase.auth().currentUser
-
-    var that = this
-
-    firebase.database().ref(currentUser.uid).child("favourites").on 
-    ("child_added", function(data){
-      var newData = [...that.state.listViewData]
-      newData.push(data)
-
-      that.setState({listViewData: newData})
-    })
-  }
 
   render() {
+
+
+    const { favNews,loading } = this.props.favNews;
+
+    let favArticle;
+
+    if (favArticle === null || loading) {
+      favArticle = <Spinner/>;
+    } else {
+      if (favNews.length > 0) {
+        favArticle = favNews.map(favarticle => (
+          
+
+          <Card
+            title={favarticle.title}
+            image={{ uri : favarticle.urlToImage}}>
+            <Text style={{marginBottom: 10}}>
+                {favarticle.description}
+            </Text>
+            <Text style={{marginBottom: 10}} note>
+                {favarticle.content}
+            </Text>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+              <TouchableOpacity style={{height:25, paddingLeft:10}} onPress={()=> Linking.openURL(favarticle.url)}>
+                <Icon name="arrow-right" size={25}/>
+              </TouchableOpacity>
+            </View>
+            
+            
+        </Card>
+
+
+
+        ))
+      } else {
+        favArticle = (
+        
+        <View>
+          <Text>There is No articles</Text>
+        </View>
+        )
+      }
+    }
+
+
+
     return (
-      <Container>
-        <Content style={{flex:1, backgroundColor:"white"}}>
-          <ListView
-            enableEmptySections
-            dataSource={this.ds.cloneWithRows
-            (this.state.listViewData)}
-            renderRow={data => 
-               
-                <Card
-                  title={data.val().name}
-                  image={{ uri : data.val().image}} >
-                  <Text style={{marginBottom: 10}} note>
-                  {data.val().content}
-                </Text>
-              </Card>
-            }
-          />
-        </Content>
-      </Container>
-    );
+  
+      
+    <ScrollView
+    style={{backgroundColor:"white"}}
+  >
+    {favArticle}
+    
+  </ScrollView>
+      
+    )
   }
 }
 
-export default favScreen;
+
+
+FavScreen.propTypes = {
+    addNewsToFav:PropTypes.func.isRequired,
+    favNews:PropTypes.object.isRequired
+}
+
+const mapStateToProps = state => ({
+  favNews:state.favNews
+})
+
+export default connect(mapStateToProps,{addNewsToFav})(FavScreen);

@@ -8,45 +8,24 @@ import {
    StyleSheet ,
    TouchableOpacity,
    Linking,
+   AsyncStorage
   } from 'react-native';
-import PropTypes from "prop-types";
+  import PropTypes from "prop-types";
+  import { connect } from "react-redux";
 import {Actions} from "react-native-router-flux";
 import Icon from "react-native-vector-icons/FontAwesome"
-import { Card, ListItem, Button,  Text } from 'react-native-elements'
+import { Card, ListItem, Button,  Text } from 'react-native-elements';
+import {addNewsToFav} from "../../actions/addFavNewsAction";
 
 console.disableYellowBox = true;
 
-var currentUser
 
 class NewsItems extends Component {
 
-
-addToFav = async(title,urlToImage,content) => {
-  
-  currentUser = await firebase.auth().currentUser
-
-  var databaseRef = await firebase.database().ref
-  (currentUser.uid).child("favourites").push()
-
-  databaseRef.set({
-    "name":title,
-    "image":urlToImage,
-    "content":content
-  })
-
-  this.setState({favButtonColor:"red"})
+addToFav = (article) => {
+  this.props.addNewsToFav(article)
+  console.log(article);
 }
-
-constructor() {
-  super();
-  console.ignoredYellowBox = [
-  '2000'
-  ];
-
-  this.state = {
-    favButtonColor:"blue"
-  };
-  }
 
   render() {
 
@@ -67,10 +46,14 @@ constructor() {
               <TouchableOpacity style={{height:25, paddingLeft:10}} onPress={()=> Linking.openURL(article.url)}>
                 <Icon name="arrow-right" size={25}/>
               </TouchableOpacity>
-              <TouchableOpacity  style={{height:25, paddingRight:10}} onPress={()=>this.addToFav(article.title,article.urlToImage,article.content)}>
-                <Icon name="heart" size={25} color={this.state.favButtonColor}/>
+              <TouchableOpacity  
+                style={{height:25, paddingRight:10}} 
+                onPress={()=>this.addToFav(article)}>
+                <Icon name="heart" size={25}/>
               </TouchableOpacity>
             </View>
+            
+            
         </Card>
 
     )
@@ -78,12 +61,19 @@ constructor() {
 }
 
 
+
 NewsItems.propTypes = {
-  article:PropTypes.object.isRequired
+  article:PropTypes.object.isRequired,
+  addNewsToFav:PropTypes.func.isRequired,
 }
 
 
-export default NewsItems
+const mapStateToProps = state => ({
+  favNews:state.favNews
+})
+
+
+export default connect(mapStateToProps,{addNewsToFav})(NewsItems);
 
 const styles = StyleSheet.create({
   container:{
