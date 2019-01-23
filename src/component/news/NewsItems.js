@@ -27,6 +27,7 @@ addToFav = (article) => {
   console.log(article);
 }
 
+
   render() {
 
     const { article } = this.props;

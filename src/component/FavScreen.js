@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View,TouchableOpacity,AsyncStorage,ScrollView } from 'react-native'
+import { Text, View,TouchableOpacity,AsyncStorage,ScrollView,Linking } from 'react-native'
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "./Spinner";
@@ -10,11 +10,6 @@ import Icon from "react-native-vector-icons/FontAwesome"
 export class FavScreen extends Component {
 
 
-retriveData = () =>{
-
-  const { favNews,loading } = this.props.favNews;
-  console.log(favNews);
-}
 
 
   render() {
@@ -45,7 +40,6 @@ retriveData = () =>{
                 <Icon name="arrow-right" size={25}/>
               </TouchableOpacity>
             </View>
-            
             
         </Card>
 
@@ -82,7 +76,8 @@ retriveData = () =>{
 
 FavScreen.propTypes = {
     addNewsToFav:PropTypes.func.isRequired,
-    favNews:PropTypes.object.isRequired
+    favNews:PropTypes.object.isRequired,
+    // removeFave:PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

@@ -3,7 +3,8 @@ import {
     NEWS_LOADING,
     GET_ERRORS,
     GET_FAV_NEWS,
-    ADD_NEWS_TO_FAV
+    ADD_NEWS_TO_FAV,
+    REMOVE_FAV
   } from "../actions/types";
   
   
@@ -11,7 +12,6 @@ import {
     loading:false,
     favNews:[]
   }
-
 
   export default function(state = initialState , action ){
     switch (action.type) {
@@ -26,6 +26,15 @@ import {
             favNews: [...state.favNews, action.payload],
             loading:false
           }
+        // case REMOVE_FAV:
+        //   return {
+        //     ...state,
+        //     favNews: [
+        //       ...state.favNews.slice(0, action.payload),
+        //       ...state.favNews.slice(action.payload + 1)
+        //   ],
+        //     loading:false
+        //   }
       default:
         return state;
     }
