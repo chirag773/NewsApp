@@ -26,13 +26,20 @@ import {
             favNews: [...state.favNews, action.payload],
             loading:false
           }
-        // case REMOVE_FAV:
+        case REMOVE_FAV:
+          return {
+            ...state,
+            favNews: state.favNews.filter(favNews => action.payload !== favNews),
+          //   favNews: [
+          //     ...state.favNews.slice(0,action.payload),
+          //     ...state.favNews.slice(action.payload + 1)
+          // ],
+            loading:false
+          }
+        // case GET_FAV_NEWS:
         //   return {
         //     ...state,
-        //     favNews: [
-        //       ...state.favNews.slice(0, action.payload),
-        //       ...state.favNews.slice(action.payload + 1)
-        //   ],
+        //     favNews:  [...state.favNews, action.payload],
         //     loading:false
         //   }
       default:

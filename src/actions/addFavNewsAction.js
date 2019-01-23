@@ -18,9 +18,16 @@ export const addNewsToFav = (article) => {
     }
   }
   
-  // export const removeFave = (favarticle) => {
-  //   return {
-  //     type:REMOVE_FAV,
+  export const removeFave = (favarticle) => {
+    return {
+      type:REMOVE_FAV,
+      payload:favarticle
+    }
+  }
+
+  // export const relodFav = (favarticle) => {
+  //   return{
+  //     type:GET_FAV_NEWS,
   //     payload:favarticle
   //   }
   // }

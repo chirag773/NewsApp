@@ -5,3 +5,4 @@ export const NEWS_LOADING = "NEWS_LOADING";
 export const NEWS_NOT_FOUND  = "NEWS_NOT_FOUND";
 export const ADD_NEWS_TO_FAV  = "ADD_NEWS_TO_FAV";
 export const REMOVE_FAV  = "REMOVE_FAV";
+export const GET_FAV_NEWS  = "GET_FAV_NEWS";

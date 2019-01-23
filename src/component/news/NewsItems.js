@@ -15,14 +15,25 @@ import {
 import {Actions} from "react-native-router-flux";
 import Icon from "react-native-vector-icons/FontAwesome"
 import { Card, ListItem, Button,  Text } from 'react-native-elements';
-import {addNewsToFav} from "../../actions/addFavNewsAction";
+import {addNewsToFav,removeFave} from "../../actions/addFavNewsAction";
 
 console.disableYellowBox = true;
 
 
 class NewsItems extends Component {
 
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      color:"white"
+    };
+  }
+
+
 addToFav = (article) => {
+
+  this.setState({ color:"red"}) 
   this.props.addNewsToFav(article)
   console.log(article);
 }
@@ -31,6 +42,7 @@ addToFav = (article) => {
   render() {
 
     const { article } = this.props;
+    const { favNews } = this.props.favNews;
 
     return (
 
@@ -49,7 +61,7 @@ addToFav = (article) => {
               </TouchableOpacity>
               <TouchableOpacity  
                 style={{height:25, paddingRight:10}} 
-                onPress={()=>this.addToFav(article)}>
+                onPress={()=>this.addToFav(article)} >
                 <Icon name="heart" size={25}/>
               </TouchableOpacity>
             </View>
@@ -66,6 +78,7 @@ addToFav = (article) => {
 NewsItems.propTypes = {
   article:PropTypes.object.isRequired,
   addNewsToFav:PropTypes.func.isRequired,
+  removeFave:PropTypes.func.isRequired,
 }
 
 
@@ -74,7 +87,7 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps,{addNewsToFav})(NewsItems);
+export default connect(mapStateToProps,{addNewsToFav,removeFave})(NewsItems);
 
 const styles = StyleSheet.create({
   container:{
